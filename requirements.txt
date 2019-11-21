@@ -7,6 +7,11 @@ enum34==1.1.6
 halo==0.0.28
 idna==2.8
 log-symbols==0.0.14
+Mako==1.1.0
+Markdown==3.1.1
+MarkupSafe==1.1.1
+-e git+https://github.com/wangonya/odoc.git@b849b7990f5703d2c631946316f97c43b5c9e584#egg=odoc
+pdoc3==0.7.2
 requests==2.22.0
 six==1.13.0
 spinners==0.0.23
