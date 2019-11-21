@@ -138,4 +138,6 @@ tags
 # Persistent undo
 [._]*.un~
 
+__pycache__
+
 # End of https://www.gitignore.io/api/vim,macos,pycharm

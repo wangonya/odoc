@@ -1,0 +1,4 @@
+
+        [console_scripts]
+        odoc=app:cli
+        

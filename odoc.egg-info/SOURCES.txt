@@ -1,0 +1,8 @@
+README.md
+setup.py
+odoc.egg-info/PKG-INFO
+odoc.egg-info/SOURCES.txt
+odoc.egg-info/dependency_links.txt
+odoc.egg-info/entry_points.txt
+odoc.egg-info/requires.txt
+odoc.egg-info/top_level.txt
