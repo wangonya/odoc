@@ -29,11 +29,6 @@ from mako.lookup import TemplateLookup
 from mako.exceptions import TopLevelLookupException
 from mako.template import Template
 
-try:
-    from pdoc._version import version as __version__  # noqa: F401
-except ImportError:
-    __version__ = '???'  # Package not installed
-
 
 _URL_MODULE_SUFFIX = '.html'
 _URL_INDEX_MODULE_SUFFIX = '.m.html'  # For modules named literal 'index'
