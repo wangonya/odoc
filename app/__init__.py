@@ -1,8 +1,10 @@
 import os
-import subprocess
 import click
+import mock
+import sys
 
 from halo import Halo
+from .pdoc import cli as pdoc
 
 spinner = Halo(text='Loading', spinner='dots', text_color='cyan')
 
@@ -31,10 +33,18 @@ def check_odoo_dir():
 
 
 @cli.command()
-def generate():
+@click.option('--html', default=True)
+@click.argument('module')
+def generate(module, html):
     """Generate docs"""
     if not check_odoo_dir():
         spinner.warn("This doesn't seem to be an odoo directory 🤔")
 
-    # subprocess.call(["pdoc", "-h"])
-    # click.echo("Docs generated")
+    MOCK_MODULES = ['babel', 'matplotlib', 'matplotlib.pyplot']
+    for mod_name in MOCK_MODULES:
+        sys.modules[mod_name] = mock.Mock()
+
+    try:
+        pdoc.main()
+    except Exception as e:
+        spinner.fail(f"Some shit went down: {e}")
