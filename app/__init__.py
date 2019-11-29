@@ -3,6 +3,7 @@ import click
 import mock
 import sys
 
+from collections import namedtuple
 from halo import Halo
 from .pdoc import cli as pdoc
 
@@ -32,10 +33,18 @@ def check_odoo_dir():
             return True
 
 
+Args = namedtuple('Args',
+                  'modules html http pdf output_dir force')
+
+
 @cli.command()
-@click.option('--html', default=True)
+@click.option('--html', default=True, show_default=True)
+@click.option('--http', default=False, show_default=True)
+@click.option('--pdf', default=False, show_default=True)
+@click.option('--output_dir', '-o', default='docs', show_default=True)
+@click.option('--force', '-f', default=False, show_default=True)
 @click.argument('module')
-def generate(module, html):
+def generate(module, html, http, pdf, output_dir, force):
     """Generate docs"""
     if not check_odoo_dir():
         spinner.warn("This doesn't seem to be an odoo directory 🤔")
@@ -45,6 +54,7 @@ def generate(module, html):
         sys.modules[mod_name] = mock.Mock()
 
     try:
-        pdoc.main()
+        args = Args([module], html, http, pdf, output_dir, force)
+        pdoc.main(args)
     except Exception as e:
         spinner.fail(f"Some shit went down: {e}")
