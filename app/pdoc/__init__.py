@@ -17,6 +17,7 @@ import os.path as path
 import re
 import sys
 import typing
+import mock
 from contextlib import contextmanager
 from copy import copy
 from functools import lru_cache, reduce, partial
@@ -176,6 +177,12 @@ def import_module(module, *, reload: bool = False) -> ModuleType:
     if isinstance(module, str):
         with _module_path(module) as module_path:
             try:
+                # TODO: CONFIRM IF MOCKING IMPORTS IS NEEDED
+                # TODO: REMEMBER TO REMOVE MOCK IMPORT IF NOT
+                # mock_modules = [
+                #     'babel', 'PyPDF2', 'passlib']
+                # for mod_name in mock_modules:
+                #     sys.modules[mod_name] = mock.Mock()
                 module = importlib.import_module(module_path)
             except Exception as e:
                 raise ImportError('Error importing {!r}: {}'.format(module, e))
