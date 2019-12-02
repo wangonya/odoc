@@ -1,10 +1,10 @@
 import os
-import click
-import mock
-import sys
-
 from collections import namedtuple
+
+import click
+
 from halo import Halo
+
 from .pdoc import cli as pdoc
 
 spinner = Halo(text='Loading', spinner='dots', text_color='cyan')
@@ -33,8 +33,7 @@ def check_odoo_dir():
             return True
 
 
-Args = namedtuple('Args',
-                  'modules html http pdf output_dir force')
+Args = namedtuple('Args', 'modules html http pdf output_dir force')
 
 
 @cli.command()
@@ -48,10 +47,8 @@ def generate(module, html, http, pdf, output_dir, force):
     """Generate docs"""
     if not check_odoo_dir():
         spinner.warn("This doesn't seem to be an odoo directory 🤔")
-
-    MOCK_MODULES = ['babel', 'matplotlib', 'matplotlib.pyplot']
-    for mod_name in MOCK_MODULES:
-        sys.modules[mod_name] = mock.Mock()
+        raise click.ClickException(
+            "odoc has to be run from an odoo root directory")
 
     try:
         args = Args([module], html, http, pdf, output_dir, force)
