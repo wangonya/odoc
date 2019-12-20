@@ -13,11 +13,10 @@ setup(
         url="https://github.com/wangonya/odoc",
         author="Kinyanjui Wangonya",
         author_email="kwangonya@gmail.com",
-        license="AGPL",
+        license="AGPL-3.0",
         classifiers=[
-            "License :: OSI Approved :: AGPL License",
-            "Programming Language :: Python :: 3",
-            "Programming Language :: Python :: 3.7",
+            "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+            "Programming Language :: Python :: 3 :: Only",
         ],
         install_requires=[
             "Click",
@@ -28,4 +27,5 @@ setup(
         [console_scripts]
         odoc=app:cli
         """,
+        python_requires='>= 3.5',
         )
