@@ -14,7 +14,8 @@ import markdown
 from markdown.inlinepatterns import InlineProcessor
 from markdown.util import AtomicString, etree
 
-import pdoc
+import app.pdoc as pdoc
+from app.pdoc import Module, Doc
 
 
 @lru_cache()
@@ -277,7 +278,7 @@ class _ToMarkdown:
         return substitute(substitute(text))
 
     @staticmethod
-    def _include_file(indent: str, path: str, options: dict, module: pdoc.Module) -> str:
+    def _include_file(indent: str, path: str, options: dict, module: Module) -> str:
         start_line = int(options.get('start-line', 0))
         end_line = int(options.get('end-line', 0)) or None
         start_after = options.get('start-after')
@@ -340,7 +341,7 @@ class _MathPattern(InlineProcessor):
 
 
 def to_html(text: str, docformat: str = 'numpy,google', *,
-            module: pdoc.Module = None, link: Callable[..., str] = None,
+            module: Module = None, link: Callable[..., str] = None,
             latex_math: bool = False):
     """
     Returns HTML of `text` interpreted as `docformat`.
@@ -364,7 +365,7 @@ def to_html(text: str, docformat: str = 'numpy,google', *,
 
 
 def to_markdown(text: str, docformat: str = 'numpy,google', *,
-                module: pdoc.Module = None, link: Callable[..., str] = None,
+                module: Module = None, link: Callable[..., str] = None,
                 # Matches markdown code spans not +directly+ within links.
                 # E.g. `code` and [foo is `bar`]() but not [`code`](...)
                 # Also skips \-escaped grave quotes.
@@ -406,7 +407,7 @@ class ReferenceWarning(UserWarning):
     """
 
 
-def _linkify(match: Match, link: Callable[..., str], module: pdoc.Module,
+def _linkify(match: Match, link: Callable[..., str], module: Module,
              _is_pyident=re.compile(r'^[a-zA-Z_]\w*(\.\w+)+$').match, **kwargs):
     matched = match.group(0)
     refname = matched.strip('`')
@@ -434,7 +435,7 @@ def extract_toc(text: str):
     return toc
 
 
-def format_git_link(template: str, dobj: pdoc.Doc):
+def format_git_link(template: str, dobj: Doc):
     """
     Interpolate `template` as a formatted string literal using values extracted
     from `dobj` and the working environment.

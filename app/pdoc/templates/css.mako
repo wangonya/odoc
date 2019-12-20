@@ -1,5 +1,5 @@
 <%!
-    from pdoc.html_helpers import minify_css
+    from app.pdoc.html_helpers import minify_css
 %>
 
 <%def name="mobile()" filter="minify_css">

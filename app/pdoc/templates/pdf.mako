@@ -1,7 +1,7 @@
 <%!
     import re
-    import pdoc
-    from pdoc.html_helpers import to_markdown
+    import app.pdoc as pdoc
+    from app.pdoc.html_helpers import to_markdown
 
     def link(d, fmt='{}'):
         name = fmt.format(d.qualname + ('()' if isinstance(d, pdoc.Function) else ''))

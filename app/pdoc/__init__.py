@@ -177,12 +177,9 @@ def import_module(module, *, reload: bool = False) -> ModuleType:
     if isinstance(module, str):
         with _module_path(module) as module_path:
             try:
-                # TODO: CONFIRM IF MOCKING IMPORTS IS NEEDED
-                # TODO: REMEMBER TO REMOVE MOCK IMPORT IF NOT
-                # mock_modules = [
-                #     'babel', 'PyPDF2', 'passlib']
-                # for mod_name in mock_modules:
-                #     sys.modules[mod_name] = mock.Mock()
+                mock_modules = ['odoo', 'odoo.exceptions']
+                for mod_name in mock_modules:
+                    sys.modules[mod_name] = mock.Mock()
                 module = importlib.import_module(module_path)
             except Exception as e:
                 raise ImportError('Error importing {!r}: {}'.format(module, e))
@@ -385,7 +382,7 @@ class Doc:
 
         docstring = (docstring or inspect.getdoc(obj) or '').strip()
         if '.. include::' in docstring:
-            from pdoc.html_helpers import _ToMarkdown
+            from app.pdoc.html_helpers import _ToMarkdown
             docstring = _ToMarkdown.admonitions(docstring, self.module, ('include',))
         self.docstring = docstring
         """
@@ -688,7 +685,7 @@ class Module(Doc):
         """
         html = _render_template('/html.mako', module=self, **kwargs)
         if minify:
-            from pdoc.html_helpers import minify_html
+            from app.pdoc.html_helpers import minify_html
             html = minify_html(html)
         return html
 
@@ -1069,7 +1066,7 @@ class Function(Doc):
             return ''
         s = inspect.formatannotation(annot).replace(' ', '\N{NBSP}')  # Better line breaks
         if link:
-            from pdoc.html_helpers import _linkify
+            from app.pdoc.html_helpers import _linkify
             s = re.sub(r'[\w\.]+', partial(_linkify, link=link, module=self.module), s)
         return s
 
@@ -1137,7 +1134,7 @@ class Function(Doc):
         EMPTY = inspect.Parameter.empty
 
         if link:
-            from pdoc.html_helpers import _linkify
+            from app.pdoc.html_helpers import _linkify
             _linkify = partial(_linkify, link=link, module=module)
 
         for p in signature.parameters.values():  # type: inspect.Parameter
