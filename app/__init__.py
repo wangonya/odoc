@@ -53,5 +53,6 @@ def generate(module, html, http, pdf, output_dir, force):
     try:
         args = Args([module], html, http, pdf, output_dir, force)
         pdoc.main(args)
+        spinner.succeed("Docs generated")
     except Exception as e:
         spinner.fail(f"Some shit went down: {e}")
